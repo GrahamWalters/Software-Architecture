@@ -6,7 +6,10 @@
     "body-parser": "latest",
     "compression": "latest",
     "express": "latest",
+    "moment": "^2.10.6",
     "mongoose": "^4.2.3",
+    "mongoose-simple-random": "^0.3.3",
+    "sendgrid": "^1.9.2",
     "underscore": "latest"
   },
   "devDependencies": {

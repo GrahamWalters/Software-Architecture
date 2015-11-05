@@ -2,6 +2,8 @@
 
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
+var warehouse    = mongoose.createConnection('mongodb://localhost/warehouse');
+var random       = require('mongoose-simple-random');
 
 var ProductSchema = new Schema({
     name : String,
@@ -12,4 +14,6 @@ var ProductSchema = new Schema({
     promo : String
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
+ProductSchema.plugin(random);
+
+module.exports = warehouse.model('Product', ProductSchema);

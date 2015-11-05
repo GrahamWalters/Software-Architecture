@@ -3,14 +3,9 @@
 
 var express        = require('express');
 var app            = express();
-var server         = app.listen(3001);
+var server         = app.listen(process.env.PORT || 3001);
 var compress       = require('compression');
 var bodyParser     = require('body-parser');
-// var _              = require('underscore');
-
-var mongoose       = require('mongoose');
-// var Schema         = mongoose.Schema;
-mongoose.connect('mongodb://localhost/warehouse');
 
 
 app.use( compress() );
@@ -23,3 +18,6 @@ app.use( express.static('public') );
 // =============================================================================
 var api = require('./api');
 app.use('/api', api);
+
+
+console.log("Server started on port %d in %s mode", server.address().port, app.settings.env);

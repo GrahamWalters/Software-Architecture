@@ -1,7 +1,16 @@
+/*jslint node: true */
+'use strict';
+
+var config          = require('./config')
 var express         = require('express');
 var api             = express.Router();
+var _               = require('underscore');
+var moment          = require('moment');
+var sendgrid        = require('sendgrid')(config.SENDGRID_API);
 
 var Product         = require('./models/product');
+var Customer        = require('./models/customer');
+var Purchase        = require('./models/purchase');
 
 api.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -63,6 +72,44 @@ api.route('/products/:id')
             console.log('Removed', req.params.id);
 
             res.json({'status':'removed'});
+        });
+    });
+
+
+api.route('/stock/')
+    .get(function(req, res) {
+        Product.find({ quantity:0 }, function(err, products) {
+            if (err) throw err;
+
+            var payload   = {
+                to      : config.email.to,
+                from    : config.email.from,
+                subject : 'Out Of Stock',
+                html    : 'The following items are out of stock<br><br><ul>'
+            };
+
+            products.forEach(function(product) {
+                payload.html += '<li><a href="http://localhost:3001/#/product/'+product._id+'/">'+product.desc+'</a></li>';
+            });
+
+            payload.html += '</ul>';
+
+            sendgrid.send(payload, function(err, json) {
+                if (err) { console.error(err); }
+                console.log(json);
+            });
+
+            res.json(products);
+        });
+    });
+
+
+api.route('/customers/')
+    .get(function(req, res) {
+        Customer.find({}, function(err, customers) {
+            if (err) throw err;
+
+            res.json(customers);
         });
     });
 
