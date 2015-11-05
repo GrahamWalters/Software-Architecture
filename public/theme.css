@@ -1,3 +1,7 @@
 body {
     margin-top: 80px;
 }
+
+#chart {
+    text-align: center;
+}

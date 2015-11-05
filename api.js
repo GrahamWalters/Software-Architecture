@@ -114,4 +114,68 @@ api.route('/customers/')
     });
 
 
+
+api.route('/year-report/')
+    .get(function(req, res) {
+        var start = moment().startOf('year').toDate();
+        var end = moment().startOf('month').toDate();
+
+        Purchase.aggregate({
+            $match: {
+                date : { $lt: end, $gt: start }
+            }
+        },{
+            $group: {
+                _id:   { month: {$month: '$date' }, year: {$year: '$date' }},
+                total: { $sum: '$total' },
+                items: { $sum: { $size: '$products' }}
+            }
+        }).sort({'_id.month': 1}).exec(function(err, report) {
+            if (err) throw err;
+
+            report = _.map(report, function(d) {
+                return {
+                    Month: d._id.month,
+                    Total: d.total,
+                    Items: d.items
+                };
+            });
+
+            res.json(report);
+        });
+    });
+
+
+api.route('/30-day-report/')
+    .get(function(req, res) {
+        var start = new Date();
+        var end = moment().startOf('month').toDate();
+        var end = moment().subtract(30, 'day').toDate();
+
+        Purchase.aggregate({
+            $match: {
+                date : { $lt: start, $gt: end }
+            }
+        },{
+            $group: {
+                _id:   { day: {$dayOfMonth: '$date'}, month: {$month: '$date' }, year: {$year: '$date' }},
+                total: { $sum: '$total' },
+                items: { $sum: { $size: '$products' }}
+            }
+        }).sort({'_id.month': 1, '_id.day': 1}).exec(function(err, report) {
+            if (err) throw err;
+
+            var report = _.map(report, function(d) {
+                return {
+                    Date: d._id.year+'/'+d._id.month+'/'+d._id.day,
+                    Total: d.total,
+                    Items: d.items
+                };
+            });
+
+            res.json(report);
+        });
+    });
+
+
 module.exports = api;
