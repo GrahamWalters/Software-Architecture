@@ -7,6 +7,7 @@ var ctrls = angular.module('app.controllers', ['ngResource', 'ngRoute']);
 ctrls.controller('main', function($scope, $location, $http) {
     $http.get('/api/products/').success(function(data) {
         $scope.products = data;
+        $scope.$broadcast('Products Received');
     });
 
     $scope.go = function(view) {
@@ -31,7 +32,14 @@ ctrls.controller('Products', function($scope, $http) {
 ctrls.controller('Product', function($scope, $routeParams, $http) {
     var id = $routeParams.id;
 
-    $scope.product = _.clone($scope.products[id]);
+    if ($scope.products) {
+        $scope.product = _.clone($scope.products[id]);
+    } else {
+        $scope.$on('Products Received', function() {
+            $scope.product = _.clone($scope.products[id]);
+        });
+    }
+
 
     $scope.update = function() {
         $http.put('/api/products/'+ id, $scope.product).success(function(res) {
