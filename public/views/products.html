@@ -1,25 +1,37 @@
 <div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Brand</th>
-          <th class="text-right">Price</th>
-          <th class="text-right">Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="product in products" ng-click="edit(product._id)">
-          <td ng-bind="product.name"></td>
-          <td ng-bind="product.brand"></td>
-          <td>
-            <span>£</span>
-            <span ng-bind="product.price | currency: ''" class="pull-right"></span>
-          </td>
-          <td ng-bind="product.quantity" class="text-right"></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-md-12">
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Brand</th>
+              <th class="text-right">Price</th>
+              <th class="text-right">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="product in products | orderObjectBy: 'name'" ng-click="edit(product._id)">
+              <td ng-bind="product.name"></td>
+              <td ng-bind="product.brand"></td>
+              <td>
+                <span>£</span>
+                <span ng-bind="product.price | currency: ''" class="pull-right"></span>
+              </td>
+              <td ng-bind="product.quantity" class="text-right"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-primary pull-right" style="position:fixed;" title="Add Product" ng-click="new()">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+    </div>
+
+
   </div>
 </div>

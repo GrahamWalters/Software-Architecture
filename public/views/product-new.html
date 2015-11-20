@@ -51,16 +51,12 @@
       </div>
 
       <div class="form-group">
-        <div class="col-sm-offset-2">
-          <div class="col-sm-4">
-            <button type="button" class="btn btn-block btn-danger" ng-click="delete()">Delete</button>
-          </div>
-          <div class="col-sm-4">
-            <button type="button" class="btn btn-block btn-warning" ng-click="go('/products/')">Cancel</button>
-          </div>
-          <div class="col-sm-4">
-            <button type="button" class="btn btn-block btn-primary" ng-click="update()">Update</button>
-          </div>
+        <div class="col-sm-4 col-sm-offset-2">
+          <button type="button" class="btn btn-block btn-warning" ng-click="go('/products/')">Cancel</button>
+        </div>
+
+        <div class="col-sm-4 col-sm-offset-2">
+          <button type="button" class="btn btn-block btn-primary" ng-click="save()">Save</button>
         </div>
       </div>
 

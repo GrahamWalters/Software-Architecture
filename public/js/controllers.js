@@ -18,14 +18,11 @@ ctrls.controller('main', function($scope, $location, $http) {
 
 ctrls.controller('Products', function($scope, $http) {
     $scope.edit = function(id) {
-        $scope.go('/product/'+id);
+        $scope.go('/products/'+id);
+    };
 
-        // var p = _.clone($scope.products[id]);
-        // delete p._id;
-
-        // $http.post('/api/products/', p).success(function(data) {
-        //     console.log(data);
-        // });
+    $scope.new = function() {
+        $scope.go('/products/new/');
     };
 });
 
@@ -56,6 +53,17 @@ ctrls.controller('Product', function($scope, $routeParams, $http) {
 
             if (res.status === 'removed') {
                 delete $scope.products[id];
+                $scope.go('/products/');
+            }
+        });
+    };
+});
+
+ctrls.controller('ProductNew', function($scope, $http) {
+    $scope.save = function() {
+        $http.post('/api/products/', $scope.product).success(function(res) {
+            if (res.status === 'created') {
+                $scope.products[res.product.id] = res.product;
                 $scope.go('/products/');
             }
         });
