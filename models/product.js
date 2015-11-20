@@ -11,7 +11,8 @@ var ProductSchema = new Schema({
     brand : String,
     price : Number,
     quantity : Number,
-    promo : String
+    promo : String,
+    loyaltyPromo: String
 });
 
 ProductSchema.plugin(random);

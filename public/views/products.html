@@ -1,29 +1,23 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-10 col-md-offset-1">
     <table class="table table-hover">
       <thead>
         <tr>
-          <!-- <th>ID</th> -->
           <th>Name</th>
-          <!-- <th>Desc</th> -->
           <th>Brand</th>
           <th class="text-right">Price</th>
           <th class="text-right">Quantity</th>
-          <th>Promo</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="product in products" ng-click="edit(product._id)">
-          <!-- <td ng-bind="product.id"></td> -->
           <td ng-bind="product.name"></td>
-          <!-- <td ng-bind="product.desc"></td> -->
           <td ng-bind="product.brand"></td>
           <td>
             <span>£</span>
             <span ng-bind="product.price | currency: ''" class="pull-right"></span>
           </td>
           <td ng-bind="product.quantity" class="text-right"></td>
-          <td ng-bind="product.promo"></td>
         </tr>
       </tbody>
     </table>
